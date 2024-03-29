@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:textColor="@color/white"
+    android:background="@color/perfectGrey"
+    tools:context=".Activity.EditNoteActivity">
+
+    <!-- Spinner für die Kategorie -->
+    <Spinner
+        android:id="@+id/categorySpinnerEdit"
+        android:layout_width="354dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:spinnerMode="dropdown"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/white"
+        android:foregroundTintMode="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="Kategorie"
+        android:textColor="#CDC7BE"
+        app:layout_constraintStart_toStartOf="@id/categorySpinnerEdit"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="-7dp" />
+
+    <!-- Editierbare Felder für Titel, Notiztext und Zeitstempel -->
+
+    <EditText
+        android:id="@+id/titleEditText"
+        android:layout_width="140dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="56dp"
+        android:hint="Titel"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/categorySpinnerEdit" />
+
+    <!-- Buttons für Abbrechen und OK -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Titel"
+        android:textColor="#CDC7BE"
+        app:layout_constraintBottom_toTopOf="@+id/titleEditText"
+        app:layout_constraintStart_toStartOf="@+id/titleEditText"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/noteContentEditText"
+        android:layout_width="0dp"
+        android:layout_height="204dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="84dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="start"
+        android:hint="Notiztext"
+        android:scrollbars="vertical"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleEditText" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="Beschreibung"
+        android:textColor="#CDC7BE"
+        app:layout_constraintBottom_toTopOf="@+id/noteContentEditText"
+        app:layout_constraintEnd_toEndOf="@id/titleEditText"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/noteContentEditText"
+        app:layout_constraintTop_toBottomOf="@+id/titleEditText"
+        app:layout_constraintVertical_bias="0.8"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="Abbrechen"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="16dp"
+        app:backgroundTint="@color/DodgerBlue"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/okButton"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:backgroundTint="@color/DodgerBlue"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

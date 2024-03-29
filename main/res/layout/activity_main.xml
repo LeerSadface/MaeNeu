@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    android:textColor="@color/white"
+    android:background="@color/perfectGrey"
+    tools:context=".Activity.MainActivity">
+
+    <!-- App-Titel -->
+    <TextView
+        android:id="@+id/appTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Notes App"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <!-- Start-Hinweis -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_below="@id/appTitleTextView"
+        android:layout_marginTop="16dp"
+        android:text="Hier kannst du deine Notizen verwalten."
+        android:textSize="14sp" />
+
+    <!-- Floating Action Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_add"
+        app:backgroundTint="@color/DodgerBlue"
+        app:srcCompat="@drawable/ic_add" />
+
+    <!-- RecyclerView für Notizen -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/noteRecyclerView"
+        android:layout_width="384dp"
+        android:layout_height="544dp"
+        android:layout_below="@id/appTitleTextView"
+        android:layout_marginTop="43dp"
+        android:textColor="@color/white" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignStart="@+id/noteRecyclerView"
+        android:layout_alignTop="@+id/fab"
+        android:layout_alignBottom="@+id/fab"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="-4dp"
+        android:layout_toStartOf="@+id/fab"
+        android:background="@drawable/rounded_border"
+        android:orientation="horizontal"
+        android:src="@drawable/ic_search_24"
+        android:textColor="@color/White">
+
+        <ImageView
+            android:layout_width="37dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_search_24"
+            app:tint="#BCB7B7" />
+
+        <EditText
+            android:id="@+id/searchEditText"
+            android:layout_width="259dp"
+            android:layout_height="match_parent"
+            android:hint="search"
+            android:imeOptions="actionDone"
+            android:inputType="text" />
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

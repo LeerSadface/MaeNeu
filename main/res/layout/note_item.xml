@@ -1,0 +1,77 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/Background"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="7dp"
+    android:background="@drawable/rounder_border"
+    android:orientation="vertical"
+    android:textColor="@color/white">
+
+    <TextView
+        android:id="@+id/noteTitleTextView"
+        android:layout_width="399dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:padding="6dp"
+        android:shadowColor="@color/black"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="2"
+        android:text="Title"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <!-- Note Date -->
+    <TextView
+        android:id="@+id/noteCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:layout_marginBottom="5dp"
+        android:padding="6dp"
+        android:shadowColor="@color/black"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="2"
+        android:text="Category"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/noteDateTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="6dp"
+        android:layout_marginLeft="6dp"
+        android:paddingTop="2dp"
+        android:paddingEnd="6dp"
+        android:paddingBottom="6dp"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowColor="@color/black"
+        android:shadowRadius="2"/>
+
+    <!-- Note Description -->
+    <TextView
+        android:id="@+id/noteDescriptionTextView"
+        android:layout_width="385dp"
+        android:layout_height="51dp"
+        android:layout_marginLeft="6dp"
+        android:paddingStart="6dp"
+        android:paddingTop="2dp"
+        android:paddingEnd="6dp"
+        android:paddingBottom="4dp"
+        android:text="Description"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowColor="@color/black"
+        android:shadowRadius="2"/>
+
+
+</LinearLayout>

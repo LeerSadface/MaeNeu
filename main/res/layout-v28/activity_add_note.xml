@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/perfectGrey"
+    android:padding="16dp">
+
+    <Spinner
+        android:id="@+id/categorySpinner"
+        android:layout_width="382dp"
+        android:layout_height="57dp"
+        android:backgroundTint="#F4F4F4"
+        android:outlineSpotShadowColor="@color/white"
+        android:textColorHint="@color/white" />
+
+    <EditText
+        android:id="@+id/titleEditText"
+        android:layout_width="386dp"
+        android:layout_height="80dp"
+        android:layout_below="@id/categorySpinner"
+        android:layout_marginTop="16dp"
+        android:hint="Titel"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
+
+    <EditText
+        android:id="@+id/noteTextEditText"
+        android:layout_width="382dp"
+        android:layout_height="150dp"
+        android:layout_below="@id/titleEditText"
+        android:layout_marginTop="16dp"
+        android:gravity="top"
+        android:hint="Notiztext"
+        android:lines="5"
+        android:minLines="3"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
+
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/noteTextEditText"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/DodgerBlue"
+        android:layout_marginTop="16dp"
+        android:text="Abbrechen" />
+
+    <Button
+        android:id="@+id/addNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/noteTextEditText"
+        android:layout_toEndOf="@id/cancelButton"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/green"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="OK" />
+
+</RelativeLayout>
