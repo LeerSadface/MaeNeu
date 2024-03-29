@@ -1,0 +1,189 @@
+@startuml
+abstract class com.example.appprojekt.Activity.Database.NoteDatabase {
+- {static} NoteDatabase instance
++ {static} NoteDatabase getInstance(Context)
++ {abstract}CategoryDao categoryDao()
++ {abstract}NoteDao noteDao()
+}
+
+
+class com.example.appprojekt.Activity.ShowNoteActivity {
+- TextView categoryTextView
+- Button okButton
+# void onCreate(Bundle)
+- void loadNoteFromDatabase(int)
+}
+
+
+class com.example.appprojekt.Activity.ShowNoteActivity$LoadNoteTask {
+# Note doInBackground(Integer)
+# void onPostExecute(Note)
+}
+
+class com.example.appprojekt.Activity.NoteAdapter {
+- List<Note> notes
++ void setNotes(List<Note>)
++ Note getNoteAtPosition(int)
++ NoteViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(NoteViewHolder,int)
+- int getCategoryColor(String)
++ int getItemCount()
+}
+
+
+class com.example.appprojekt.Activity.NoteAdapter$NoteViewHolder {
+~ TextView noteTitle
+~ ConstraintLayout showNote
++ void onCreateContextMenu(ContextMenu,View,ContextMenu.ContextMenuInfo)
++ boolean onMenuItemClick(MenuItem)
+}
+
+
+class com.example.appprojekt.Activity.MainActivity {
++ {static} int REQUEST_SHOW_NOTES
+- {static} int REQUEST_ADD_NOTE
+- RecyclerView noteRecyclerView
+- NoteAdapter noteAdapter
+- NoteDatabase noteDatabase
+- List<Note> notesList
+# void onCreate(Bundle)
+# void onResume()
+- void searchNotes(String)
+- void loadNotes(int)
+# void onActivityResult(int,int,Intent)
+}
+
+
+class com.example.appprojekt.Activity.LoadNotesTask {
+# List<Note> doInBackground(Void)
+# void onPostExecute(List<Note>)
+}
+
+interface com.example.appprojekt.Activity.Database.NoteDao {
+~ void insert(Note)
+~ void update(Note)
+~ void delete(Note)
+~ List<Note> getAllNotes()
+~ void deleteAll()
+~ List<Note> searchNotes(String)
+~ void updateNoteContentAndCategoryAndLastUpdated(int,String,String,String,String)
+~ List<NoteandCategory> getNoteAndCategory()
+~ List<Note> getNotesByCategory(String)
+~ Note getNoteById(int)
+~ void deleteNoteById(int)
+}
+
+class com.example.appprojekt.Activity.Database.Note {
++ int id
++ String category
++ String title
++ String noteText
++ Calendar dateCreated
++ Calendar dateLastUpdated
++ int getId()
++ void setId(int)
++ String getCategory()
++ void setCategory(String)
++ String getTitle()
++ void setTitle(String)
++ String getNoteText()
++ void setNoteText(String)
++ Calendar getDateCreated()
++ void setDateCreated(Calendar)
++ Calendar getDateLastUpdated()
++ void setDateLastUpdated(Calendar)
+}
+
+
+interface com.example.appprojekt.Activity.Database.CategoryDao {
+~ void insert(Category)
+~ void update(Category)
+~ void delete(Category)
+~ List<Category> getAllCategories()
+}
+
+class com.example.appprojekt.Activity.AddNoteActivity {
+- Spinner categorySpinner
+- EditText titleEditText
+# void onCreate(Bundle)
+- void saveNoteToDatabase()
+}
+
+
+class com.example.appprojekt.Activity.SaveNoteTask {
+# Void doInBackground(Void)
+# void onPostExecute(Void)
+}
+
+class com.example.appprojekt.Activity.Database.NoteandCategory {
++ Note note
++ List<Note> notes
+}
+
+class com.example.appprojekt.Activity.EditNoteActivity {
+- EditText titleEditText
+- Spinner categorySpinner
+- Button cancelButton
+- int noteId
+# void onCreate(Bundle)
+- void loadNoteContent()
+- int getIndexForCategory(String)
+- void saveNoteAndFinish()
+}
+
+
+class com.example.appprojekt.Activity.EditNoteActivity$LoadNoteContentTask {
+# Note doInBackground(Void)
+# void onPostExecute(Note)
+}
+
+class com.example.appprojekt.Activity.EditNoteActivity$UpdateNoteContentTask {
+# Void doInBackground(String)
+# void onPostExecute(Void)
+}
+
+class com.example.appprojekt.Activity.Database.Converters {
++ {static} Calendar fromTimestamp(Long)
++ {static} Long calendarToTimestamp(Calendar)
+}
+
+class com.example.appprojekt.Activity.Database.Category {
++ String category
+}
+
+class com.example.appprojekt.Activity.DeleteNoteActivity {
+- boolean confirmDelete
+# void onCreate(Bundle)
+- void deleteNote()
+}
+
+
+class com.example.appprojekt.Activity.DeleteNoteActivity$DeleteNoteTask {
+# Void doInBackground(Integer)
+# void onPostExecute(Void)
+}
+
+
+
+androidx.room.RoomDatabase <|-- com.example.appprojekt.Activity.Database.NoteDatabase
+androidx.appcompat.app.AppCompatActivity <|-- com.example.appprojekt.Activity.ShowNoteActivity
+com.example.appprojekt.Activity.ShowNoteActivity +.. com.example.appprojekt.Activity.ShowNoteActivity$LoadNoteTask
+com.example.appprojekt.Activity.AsyncTask <|-- com.example.appprojekt.Activity.ShowNoteActivity$LoadNoteTask
+com.example.appprojekt.Activity.Adapter <|-- com.example.appprojekt.Activity.NoteAdapter
+com.example.appprojekt.Activity.NoteAdapter +.. com.example.appprojekt.Activity.NoteAdapter$NoteViewHolder
+com.example.appprojekt.Activity.OnCreateContextMenuListener <|.. com.example.appprojekt.Activity.NoteAdapter$NoteViewHolder
+com.example.appprojekt.Activity.OnMenuItemClickListener <|.. com.example.appprojekt.Activity.NoteAdapter$NoteViewHolder
+com.example.appprojekt.Activity.ViewHolder <|-- com.example.appprojekt.Activity.NoteAdapter$NoteViewHolder
+androidx.appcompat.app.AppCompatActivity <|-- com.example.appprojekt.Activity.MainActivity
+com.example.appprojekt.Activity.AsyncTask <|-- com.example.appprojekt.Activity.LoadNotesTask
+androidx.appcompat.app.AppCompatActivity <|-- com.example.appprojekt.Activity.AddNoteActivity
+com.example.appprojekt.Activity.AsyncTask <|-- com.example.appprojekt.Activity.SaveNoteTask
+androidx.appcompat.app.AppCompatActivity <|-- com.example.appprojekt.Activity.EditNoteActivity
+com.example.appprojekt.Activity.EditNoteActivity +.. com.example.appprojekt.Activity.EditNoteActivity$LoadNoteContentTask
+com.example.appprojekt.Activity.AsyncTask <|-- com.example.appprojekt.Activity.EditNoteActivity$LoadNoteContentTask
+com.example.appprojekt.Activity.EditNoteActivity +.. com.example.appprojekt.Activity.EditNoteActivity$UpdateNoteContentTask
+com.example.appprojekt.Activity.AsyncTask <|-- com.example.appprojekt.Activity.EditNoteActivity$UpdateNoteContentTask
+androidx.appcompat.app.AppCompatActivity <|-- com.example.appprojekt.Activity.DeleteNoteActivity
+com.example.appprojekt.Activity.DeleteNoteActivity +.. com.example.appprojekt.Activity.DeleteNoteActivity$DeleteNoteTask
+com.example.appprojekt.Activity.AsyncTask <|-- com.example.appprojekt.Activity.DeleteNoteActivity$DeleteNoteTask
+@enduml

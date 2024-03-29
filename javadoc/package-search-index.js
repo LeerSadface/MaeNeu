@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.example.appprojekt.Activity"},{"l":"com.example.appprojekt.Activity.Database"}];updateSearchResults();
