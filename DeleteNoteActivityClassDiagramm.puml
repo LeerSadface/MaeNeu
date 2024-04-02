@@ -1,0 +1,19 @@
+@startuml
+class DeleteNoteActivity {
+- boolean confirmDelete
+# void onCreate(Bundle)
+- void deleteNote()
+}
+
+
+class DeleteNoteActivity$DeleteNoteTask {
+# Void doInBackground(Integer)
+# void onPostExecute(Void)
+}
+
+
+
+AppCompatActivity <|-- DeleteNoteActivity
+DeleteNoteActivity +.. DeleteNoteActivity$DeleteNoteTask
+AsyncTask <|-- DeleteNoteActivity$DeleteNoteTask
+@enduml

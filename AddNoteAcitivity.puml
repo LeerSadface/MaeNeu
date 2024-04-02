@@ -1,0 +1,31 @@
+@startuml
+class AddNoteActivity {
+- Spinner categorySpinner
+- EditText titleEditText
+# void onCreate(Bundle)
+- void saveNoteToDatabase()
+}
+note top of AddNoteActivity
+
+ * Die AddNoteActivity-Klasse ermoeglicht das Hinzufuegen neuer Notizen.
+ * Sie stellt ein Formular bereit, in dem der Benutzer die Kategorie, den Titel und den Text der Notiz eingeben kann.
+ 
+end note
+
+
+note left of AddNoteActivity::saveNoteToDatabase()
+
+     * Speichert die eingegebene Notiz in der Datenbank.
+     
+end note
+
+class SaveNoteTask {
+# Void doInBackground(Void)
+# void onPostExecute(Void)
+}
+
+
+
+AppCompatActivity <|-- AddNoteActivity
+AsyncTask <|-- SaveNoteTask
+@enduml

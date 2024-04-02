@@ -2,15 +2,20 @@ package com.example.appprojekt.Activity.Database;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import java.util.Calendar;
 
 /**
- * Die Klasse Note repräsentiert eine Notiz in der Datenbank.
- * Sie enthält Attribute wie Kategorie, Titel, Notiztext und Datumsangaben.
+ * Die Klasse Note repraesentiert eine Notiz in der Datenbank.
+ * Sie enthaelt Attribute wie Kategorie, Titel, Notiztext und Datumsangaben.
  */
-@Entity(tableName = "notes")
+@Entity(tableName = "notes",
+        foreignKeys = @ForeignKey(entity = Category.class,
+                parentColumns = "category",
+                childColumns = "category",
+                onDelete = ForeignKey.CASCADE))
 public class Note {
 
     /** Die eindeutige ID der Notiz. */
@@ -57,32 +62,16 @@ public class Note {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getNoteText() {
         return noteText;
-    }
-
-    public void setNoteText(String noteText) {
-        this.noteText = noteText;
     }
 
     public Calendar getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Calendar dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
     public Calendar getDateLastUpdated() {
         return dateLastUpdated;
-    }
-
-    public void setDateLastUpdated(Calendar dateLastUpdated) {
-        this.dateLastUpdated = dateLastUpdated;
     }
 
 

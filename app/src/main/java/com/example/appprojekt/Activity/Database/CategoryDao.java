@@ -42,4 +42,6 @@ public interface CategoryDao {
      */
     @Query("SELECT * FROM categories")
     List<Category> getAllCategories();
+    @Query("SELECT category FROM categories")
+    List<String> getAllCategoryNames();
 }

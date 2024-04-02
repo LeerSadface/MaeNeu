@@ -21,10 +21,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * Die AddNoteActivity-Klasse ermoeglicht das Hinzufuegen neuer Notizen.
- * Sie stellt ein Formular bereit, in dem der Benutzer die Kategorie, den Titel und den Text der Notiz eingeben kann.
- */
 public class AddNoteActivity extends AppCompatActivity {
 
     private Spinner categorySpinner;
@@ -41,20 +37,7 @@ public class AddNoteActivity extends AppCompatActivity {
         Button cancelButton = findViewById(R.id.cancelButton);
         Button addButton = findViewById(R.id.addNote);
 
-        List<String> categories = new ArrayList<>();
-        categories.add("Arbeit");
-        categories.add("Persönlich");
-        categories.add("Einkaufsliste");
-        categories.add("Sport");
-        categories.add("Reisen");
-
-        // Adapter für den Spinner erstellen
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // Adapter an den Spinner anhaengen
-        categorySpinner.setAdapter(adapter);
-
+        // OnClickListener für den Abbrechen-Button
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,51 +45,71 @@ public class AddNoteActivity extends AppCompatActivity {
             }
         });
 
+        // OnClickListener für den Hinzufügen-Button
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveNoteToDatabase();
             }
         });
+
+        // Lade Kategorien aus der Datenbank
+        loadCategoriesFromDatabase();
     }
 
-    /**
-     * Speichert die eingegebene Notiz in der Datenbank.
-     */
+    private void loadCategoriesFromDatabase() {
+        new LoadCategoriesTask().execute();
+    }
+
+    private class LoadCategoriesTask extends AsyncTask<Void, Void, List<String>> {
+
+        @Override
+        protected List<String> doInBackground(Void... voids) {
+            return NoteDatabase.getInstance(AddNoteActivity.this).categoryDao().getAllCategoryNames();
+        }
+
+        @Override
+        protected void onPostExecute(List<String> categoryNames) {
+            super.onPostExecute(categoryNames);
+            // Setze die Kategorien in den Spinner
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(AddNoteActivity.this, android.R.layout.simple_spinner_item, categoryNames);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            categorySpinner.setAdapter(adapter);
+        }
+    }
+
     private void saveNoteToDatabase() {
         String category = categorySpinner.getSelectedItem().toString();
         String title = titleEditText.getText().toString().trim();
         String noteText = noteTextEditText.getText().toString().trim();
-        Calendar currentTime = Calendar.getInstance();
 
+        // Überprüfe, ob Titel und Notiztext eingegeben wurden
         if (title.isEmpty() || noteText.isEmpty()) {
             Toast.makeText(this, "Bitte füllen Sie alle Felder aus", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        final Note note = new Note(category, title, noteText, currentTime, currentTime);
-
+        // Erstelle eine neue Notiz
+        final Note note = new Note(category, title, noteText, Calendar.getInstance(), Calendar.getInstance());
 
         @SuppressLint("StaticFieldLeak")
         class SaveNoteTask extends AsyncTask<Void, Void, Void> {
 
             @Override
             protected Void doInBackground(Void... voids) {
+                // Füge die Notiz zur Datenbank hinzu
                 NoteDatabase.getInstance(getApplicationContext()).noteDao().insert(note);
-
                 return null;
             }
 
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                Intent intent = new Intent();
+                // Zeige eine Toast-Nachricht an und beende die Aktivität
                 Toast.makeText(getApplicationContext(), "Notiz hinzugefügt", Toast.LENGTH_SHORT).show();
-                setResult(RESULT_OK, intent);
                 finish();
             }
         }
         new SaveNoteTask().execute();
     }
-
 }

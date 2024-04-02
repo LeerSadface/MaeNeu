@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class NoteandCategory {
 
-    /** Eine eingebettete Notiz. */
+
     @Embedded
     public Note note;
 

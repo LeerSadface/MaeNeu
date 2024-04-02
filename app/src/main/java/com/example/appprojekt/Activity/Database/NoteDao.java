@@ -49,8 +49,8 @@ public interface NoteDao {
     List<NoteandCategory> getNoteAndCategory();
 
     /** Ruft Notizen einer bestimmten Kategorie aus der Datenbank ab. */
-    @Query("SELECT * FROM notes WHERE category = :category")
-    List<Note> getNotesByCategory(String category);
+    @Query("SELECT * FROM notes WHERE category = :categoryName")
+    List<Note> getNotesByCategoryName(String categoryName);
 
     /** Ruft eine Notiz anhand ihrer ID aus der Datenbank ab. */
     @Query("SELECT * FROM notes WHERE id = :noteId")

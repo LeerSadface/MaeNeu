@@ -1,0 +1,31 @@
+@startuml
+class EditNoteActivity {
+- EditText titleEditText
+- Spinner categorySpinner
+- Button cancelButton
+- int noteId
+# void onCreate(Bundle)
+- void loadNoteContent()
+- int getIndexForCategory(String)
+- void saveNoteAndFinish()
+}
+
+
+class EditNoteActivity$LoadNoteContentTask {
+# Note doInBackground(Void)
+# void onPostExecute(Note)
+}
+
+class EditNoteActivity$UpdateNoteContentTask {
+# Void doInBackground(String)
+# void onPostExecute(Void)
+}
+
+
+
+AppCompatActivity <|-- EditNoteActivity
+EditNoteActivity +.. EditNoteActivity$LoadNoteContentTask
+AsyncTask <|-- EditNoteActivity$LoadNoteContentTask
+EditNoteActivity +.. EditNoteActivity$UpdateNoteContentTask
+AsyncTask <|-- EditNoteActivity$UpdateNoteContentTask
+@enduml

@@ -2,6 +2,7 @@ package com.example.appprojekt.Activity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -13,7 +14,9 @@ import com.example.appprojekt.Activity.Database.NoteDatabase;
 import com.example.appprojekt.R;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Die ShowNoteActivity-Klasse zeigt die Details einer einzelnen Notiz an.
@@ -61,6 +64,7 @@ public class ShowNoteActivity extends AppCompatActivity {
 
         @Override
         protected Note doInBackground(Integer... integers) {
+
             int noteId = integers[0];
             NoteDao noteDao = NoteDatabase.getInstance(ShowNoteActivity.this).noteDao();
             return noteDao.getNoteById(noteId);
@@ -70,19 +74,19 @@ public class ShowNoteActivity extends AppCompatActivity {
         protected void onPostExecute(Note note) {
             if (note != null) {
 
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
+                dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+2"));
+
                 String creationDate = dateFormat.format(note.getDateCreated().getTime());
                 String updateDate = dateFormat.format(note.getDateLastUpdated().getTime());
 
-                SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
-                String creationTime = timeFormat.format(note.getDateCreated().getTime());
-                String updateTime = timeFormat.format(note.getDateLastUpdated().getTime());
+                Log.d("ShowNoteActivity", "Last Updated Date: " + note.getDateLastUpdated());
 
                 categoryTextView.setText(note.getCategory());
                 titleTextView.setText(note.getTitle());
                 noteContentTextView.setText(note.getNoteText());
-                creationDateTextView.setText(creationDate + " " + creationTime);
-                updateDateTextView.setText(updateDate + " " + updateTime);
+                creationDateTextView.setText(creationDate);
+                updateDateTextView.setText(updateDate);
             }
         }
     }

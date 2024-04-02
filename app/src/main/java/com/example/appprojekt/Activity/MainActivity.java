@@ -89,11 +89,13 @@ public class MainActivity extends AppCompatActivity {
         for (Note note : notesList) {
             if (note.getTitle().toLowerCase().contains(query.toLowerCase())) {
                 searchResults.add(note);
+            } else if (note.getCategory().toLowerCase().contains(query.toLowerCase())) {
+                searchResults.add(note);
             }
-        }
 
-        noteAdapter.setNotes(searchResults);
-        noteAdapter.notifyDataSetChanged();
+            noteAdapter.setNotes(searchResults);
+            noteAdapter.notifyDataSetChanged();
+        }
     }
 
     /**

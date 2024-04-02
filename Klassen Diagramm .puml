@@ -1,0 +1,457 @@
+@startuml
+abstract class com.example.appprojekt.Activity.Database.NoteDatabase {
+- {static} NoteDatabase instance
++ {static} NoteDatabase getInstance(Context)
++ {abstract}CategoryDao categoryDao()
++ {abstract}NoteDao noteDao()
+}
+note top of com.example.appprojekt.Activity.Database.NoteDatabase
+
+ * Die NoteDatabase-Klasse repraesentiert die SQLite-Datenbank für die Anwendung.
+ * Sie enthaelt die Tabellen für Kategorien und Notizen und bietet Zugriff auf die DAOs.
+ 
+end note
+
+note left of com.example.appprojekt.Activity.Database.NoteDatabase::instance
+ Die Instanz der Datenbank. 
+end note
+
+note left of com.example.appprojekt.Activity.Database.NoteDatabase::getInstance(Context)
+
+     * Gibt eine synchronisierte Instanz der Datenbank zurueck.
+     * @param context Der Anwendungskontext.
+     * @return Die Instanz der Datenbank.
+     
+end note
+note right of com.example.appprojekt.Activity.Database.NoteDatabase::categoryDao()
+ Gibt das Data Access Object (DAO) für Kategorien zurueck. 
+end note
+note left of com.example.appprojekt.Activity.Database.NoteDatabase::noteDao()
+ Gibt das Data Access Object (DAO) für Notizen zurueck. 
+end note
+
+class com.example.appprojekt.Activity.ShowNoteActivity {
+- TextView categoryTextView
+- Button okButton
+# void onCreate(Bundle)
+- void loadNoteFromDatabase(int)
+}
+note top of com.example.appprojekt.Activity.ShowNoteActivity
+
+ * Die ShowNoteActivity-Klasse zeigt die Details einer einzelnen Notiz an.
+ * Sie ermoeglicht es dem Benutzer, die Details einer Notiz zu betrachten, einschließlich Kategorie, Titel, Inhalt und Erstellungs-/Aktualisierungsdatum.
+ 
+end note
+
+
+note left of com.example.appprojekt.Activity.ShowNoteActivity::loadNoteFromDatabase(int)
+
+     * Laedt die Details einer Notiz aus der Datenbank und aktualisiert die Ansicht entsprechend.
+     * @param noteId Die ID der Notiz, deren Details geladen werden sollen.
+     
+end note
+
+class com.example.appprojekt.Activity.ShowNoteActivity$LoadNoteTask {
+# Note doInBackground(Integer)
+# void onPostExecute(Note)
+}
+note top of com.example.appprojekt.Activity.ShowNoteActivity$LoadNoteTask
+
+     * AsyncTask zum Laden der Notizdetails aus der Datenbank.
+     
+end note
+
+
+class com.example.appprojekt.Activity.NoteAdapter {
+- List<Note> notes
++ <<Create>> NoteAdapter(List<Note>)
++ void setNotes(List<Note>)
++ NoteViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(NoteViewHolder,int)
+- int getCategoryColor(String)
++ int getItemCount()
+}
+note top of com.example.appprojekt.Activity.NoteAdapter
+
+ * Der NoteAdapter ist ein RecyclerView-Adapter, der Notizen in einer RecyclerView anzeigt.
+ * Er bindet die Notizdaten an die einzelnen Elemente des RecyclerViews und behandelt die Benutzerinteraktionen.
+ 
+end note
+
+
+note left of com.example.appprojekt.Activity.NoteAdapter::NoteAdapter(List<Note>)
+
+     * Konstruktor für den NoteAdapter.
+     * @param notes Eine Liste von Notizen, die im RecyclerView angezeigt werden sollen.
+     
+end note
+note right of com.example.appprojekt.Activity.NoteAdapter::setNotes(List<Note>)
+
+     * Aktualisiert die Liste der Notizen und benachrichtigt den Adapter über die Aenderung.
+     * @param notes Die aktualisierte Liste von Notizen.
+     
+end note
+
+class com.example.appprojekt.Activity.NoteAdapter$NoteViewHolder {
+~ TextView noteTitle
+~ ConstraintLayout showNote
+~ <<Create>> NoteViewHolder(View)
++ void onCreateContextMenu(ContextMenu,View,ContextMenu.ContextMenuInfo)
++ boolean onMenuItemClick(MenuItem)
+}
+note top of com.example.appprojekt.Activity.NoteAdapter$NoteViewHolder
+
+     * Die NoteViewHolder-Klasse stellt einzelne Notiz-Views innerhalb des RecyclerViews dar.
+     * Sie behandelt auch Benutzerinteraktionen ueber ein Kontextmenue.
+     
+end note
+
+
+
+class com.example.appprojekt.Activity.MainActivity {
++ {static} int REQUEST_SHOW_NOTES
+- {static} int REQUEST_ADD_NOTE
+- RecyclerView noteRecyclerView
+- NoteAdapter noteAdapter
+- NoteDatabase noteDatabase
+- List<Note> notesList
+# void onCreate(Bundle)
+# void onResume()
+- void searchNotes(String)
+- void loadNotes(int)
+# void onActivityResult(int,int,Intent)
+}
+note top of com.example.appprojekt.Activity.MainActivity
+
+ * Die MainActivity ist die Einstiegsaktivitaet der Anwendung.
+ * Sie zeigt die Liste der Notizen an und ermoeglicht das Hinzufuegen neuer Notizen beim Klicken auf den Hinzufuegen-Button.
+ * Außerdem kann eine Notiz Gesucht werden.
+ 
+end note
+
+
+note left of com.example.appprojekt.Activity.MainActivity::searchNotes(String)
+
+     * Sucht nach Notizen anhand eines Suchbegriffs und aktualisiert die angezeigte Liste.
+     * @param query Der Suchbegriff.
+     
+end note
+note right of com.example.appprojekt.Activity.MainActivity::loadNotes(int)
+
+     * Lädt die Notizen aus der Datenbank und aktualisiert die Anzeige entsprechend.
+     * @param requestCode Der Anforderungscode für die Aktualisierung.
+     
+end note
+
+class com.example.appprojekt.Activity.LoadNotesTask {
+# List<Note> doInBackground(Void)
+# void onPostExecute(List<Note>)
+}
+
+interface com.example.appprojekt.Activity.Database.NoteDao {
+~ void insert(Note)
+~ void update(Note)
+~ void delete(Note)
+~ List<Note> getAllNotes()
+~ void deleteAll()
+~ List<Note> searchNotes(String)
+~ void updateNoteContentAndCategoryAndLastUpdated(int,String,String,String,String)
+~ List<NoteandCategory> getNoteAndCategory()
+~ List<Note> getNotesByCategory(String)
+~ Note getNoteById(int)
+~ void deleteNoteById(int)
+}
+note top of com.example.appprojekt.Activity.Database.NoteDao
+
+ * Das NoteDao-Interface definiert Methoden zum Zugriff auf die Notizen in der Datenbank.
+ 
+end note
+
+note left of com.example.appprojekt.Activity.Database.NoteDao::insert(Note)
+ Fuegt eine neue Notiz in die Datenbank ein. 
+end note
+note right of com.example.appprojekt.Activity.Database.NoteDao::update(Note)
+ Aktualisiert eine vorhandene Notiz in der Datenbank. 
+end note
+note left of com.example.appprojekt.Activity.Database.NoteDao::delete(Note)
+ Loescht eine Notiz aus der Datenbank. 
+end note
+note right of com.example.appprojekt.Activity.Database.NoteDao::getAllNotes()
+ Ruft alle Notizen aus der Datenbank ab. 
+end note
+note left of com.example.appprojekt.Activity.Database.NoteDao::deleteAll()
+ Loescht alle Notizen aus der Datenbank. 
+end note
+note right of com.example.appprojekt.Activity.Database.NoteDao::searchNotes(String)
+ Sucht Notizen anhand eines Suchtextes. 
+end note
+note left of com.example.appprojekt.Activity.Database.NoteDao::updateNoteContentAndCategoryAndLastUpdated(int,String,String,String,String)
+ Aktualisiert den Inhalt, die Kategorie und das Datum der letzten Aktualisierung einer Notiz. 
+end note
+note right of com.example.appprojekt.Activity.Database.NoteDao::getNoteAndCategory()
+ Ruft Notizen und zugehoerige Kategorien aus der Datenbank ab. 
+end note
+note left of com.example.appprojekt.Activity.Database.NoteDao::getNotesByCategory(String)
+ Ruft Notizen einer bestimmten Kategorie aus der Datenbank ab. 
+end note
+note right of com.example.appprojekt.Activity.Database.NoteDao::getNoteById(int)
+ Ruft eine Notiz anhand ihrer ID aus der Datenbank ab. 
+end note
+note left of com.example.appprojekt.Activity.Database.NoteDao::deleteNoteById(int)
+ Loescht eine Notiz anhand ihrer ID aus der Datenbank. 
+end note
+
+class com.example.appprojekt.Activity.Database.Note {
++ int id
++ String category
++ String title
++ String noteText
++ Calendar dateCreated
++ Calendar dateLastUpdated
++ <<Create>> Note(String,String,String,Calendar,Calendar)
++ int getId()
++ void setId(int)
++ String getCategory()
++ void setCategory(String)
++ String getTitle()
++ String getNoteText()
++ Calendar getDateCreated()
++ Calendar getDateLastUpdated()
+}
+note top of com.example.appprojekt.Activity.Database.Note
+
+ * Die Klasse Note repraesentiert eine Notiz in der Datenbank.
+ * Sie enthaelt Attribute wie Kategorie, Titel, Notiztext und Datumsangaben.
+ 
+end note
+
+note left of com.example.appprojekt.Activity.Database.Note::id
+ Die eindeutige ID der Notiz. 
+end note
+note right of com.example.appprojekt.Activity.Database.Note::category
+ Die Kategorie, der die Notiz zugeordnet ist. 
+end note
+note left of com.example.appprojekt.Activity.Database.Note::title
+ Der Titel der Notiz. 
+end note
+note right of com.example.appprojekt.Activity.Database.Note::noteText
+ Der Textinhalt der Notiz. 
+end note
+note left of com.example.appprojekt.Activity.Database.Note::dateCreated
+ Das Datum, an dem die Notiz erstellt wurde. 
+end note
+note right of com.example.appprojekt.Activity.Database.Note::dateLastUpdated
+ Das Datum der letzten Aktualisierung der Notiz. 
+end note
+
+
+interface com.example.appprojekt.Activity.Database.CategoryDao {
+~ void insert(Category)
+~ void update(Category)
+~ void delete(Category)
+~ List<Category> getAllCategories()
+}
+note top of com.example.appprojekt.Activity.Database.CategoryDao
+
+ * Das CategoryDao-Interface definiert Methoden zum Zugriff auf die Datenbanktabelle "categories".
+ * Es enthaelt Methoden zum Einfuegen, Aktualisieren, Loeschen und Abrufen von Kategorien.
+ 
+end note
+
+note left of com.example.appprojekt.Activity.Database.CategoryDao::insert(Category)
+
+     * Fuegt eine neue Kategorie in die Datenbank ein.
+     * @param category Die zu speichernde Kategorie.
+     
+end note
+note right of com.example.appprojekt.Activity.Database.CategoryDao::update(Category)
+
+     * Aktualisiert eine vorhandene Kategorie in der Datenbank.
+     * @param category Die zu aktualisierende Kategorie.
+     
+end note
+note left of com.example.appprojekt.Activity.Database.CategoryDao::delete(Category)
+
+     * Loescht eine Kategorie aus der Datenbank.
+     * @param category Die zu loeschende Kategorie.
+     
+end note
+note right of com.example.appprojekt.Activity.Database.CategoryDao::getAllCategories()
+
+     * Ruft alle Kategorien aus der Datenbank ab.
+     * @return Eine Liste aller Kategorien in der Datenbank.
+     
+end note
+
+class com.example.appprojekt.Activity.AddNoteActivity {
+- Spinner categorySpinner
+- EditText titleEditText
+# void onCreate(Bundle)
+- void saveNoteToDatabase()
+}
+note top of com.example.appprojekt.Activity.AddNoteActivity
+
+ * Die AddNoteActivity-Klasse ermoeglicht das Hinzufuegen neuer Notizen.
+ * Sie stellt ein Formular bereit, in dem der Benutzer die Kategorie, den Titel und den Text der Notiz eingeben kann.
+ 
+end note
+
+
+note left of com.example.appprojekt.Activity.AddNoteActivity::saveNoteToDatabase()
+
+     * Speichert die eingegebene Notiz in der Datenbank.
+     
+end note
+
+class com.example.appprojekt.Activity.SaveNoteTask {
+# Void doInBackground(Void)
+# void onPostExecute(Void)
+}
+
+class com.example.appprojekt.Activity.Database.NoteandCategory {
++ Note note
++ List<Note> notes
+}
+note top of com.example.appprojekt.Activity.Database.NoteandCategory
+
+ * Die NoteandCategory-Klasse repraesentiert eine Verbindung zwischen Notizen und Kategorien in der Datenbank.
+ * Sie ermoeglicht den Zugriff auf Notizen, die zu einer bestimmten Kategorie gehoeren.
+ 
+end note
+
+note left of com.example.appprojekt.Activity.Database.NoteandCategory::notes
+ Eine Liste von Notizen, die zu einer bestimmten Kategorie gehoeren. 
+end note
+
+class com.example.appprojekt.Activity.EditNoteActivity {
+- EditText titleEditText
+- Spinner categorySpinner
+- Button cancelButton
+- int noteId
+# void onCreate(Bundle)
+- void loadNoteContent()
+- int getIndexForCategory(String)
+- void saveNoteAndFinish()
+}
+note top of com.example.appprojekt.Activity.EditNoteActivity
+
+ * Die EditNoteActivity-Klasse ermoeglicht das Bearbeiten einer vorhandenen Notiz.
+ * Sie zeigt ein Formular an, in dem der Benutzer den Titel, den Inhalt und die Kategorie der Notiz bearbeiten kann.
+ 
+end note
+
+
+
+class com.example.appprojekt.Activity.EditNoteActivity$LoadNoteContentTask {
+# Note doInBackground(Void)
+# void onPostExecute(Note)
+}
+
+class com.example.appprojekt.Activity.EditNoteActivity$UpdateNoteContentTask {
+# Void doInBackground(String)
+# void onPostExecute(Void)
+}
+
+class com.example.appprojekt.Activity.Database.Converters {
++ {static} Calendar fromTimestamp(Long)
++ {static} Long calendarToTimestamp(Calendar)
+}
+note top of com.example.appprojekt.Activity.Database.Converters
+
+ * Die Converters-Klasse bietet Konvertierungsmethoden für den Room-Datenbanktyp Calendar.
+ * Sie konvertiert ein Calendar-Objekt zu einem Long-Wert (Zeitstempel).
+ 
+end note
+
+note left of com.example.appprojekt.Activity.Database.Converters::fromTimestamp(Long)
+
+     * Konvertiert einen Long-Wert (Zeitstempel) in ein Calendar-Objekt.
+     * @param value Der Long-Wert, der konvertiert werden soll.
+     * @return Ein Calendar-Objekt, das den uebergebenen Zeitstempel darstellt.
+     
+end note
+note right of com.example.appprojekt.Activity.Database.Converters::calendarToTimestamp(Calendar)
+
+     * Konvertiert ein Calendar-Objekt in einen Long-Wert (Zeitstempel).
+     * @param calendar Das Calendar-Objekt, das konvertiert werden soll.
+     * @return Ein Long-Wert, der den Zeitstempel des uebergebenen Calendar-Objekts darstellt.
+     
+end note
+
+class com.example.appprojekt.Activity.Database.Category {
++ String category
++ <<Create>> Category(String)
+}
+note top of com.example.appprojekt.Activity.Database.Category
+
+ * Die Klasse Category repraesentiert eine Kategorie in der Datenbank.
+ * Sie wird verwendet, um Kategorien für bestimmte Elemente zu definieren.
+ 
+end note
+
+note left of com.example.appprojekt.Activity.Database.Category::category
+
+     * Der Primaerschluessel für die Kategorie.
+     * Er wird automatisch generiert und muss eindeutig sein.
+     
+end note
+
+note left of com.example.appprojekt.Activity.Database.Category::Category(String)
+
+     * Konstruktor für die Category-Klasse.
+     
+end note
+
+class com.example.appprojekt.Activity.DeleteNoteActivity {
+- boolean confirmDelete
+# void onCreate(Bundle)
+- void deleteNote()
+}
+note top of com.example.appprojekt.Activity.DeleteNoteActivity
+
+ * Die DeleteNoteActivity-Klasse ermoeglicht das Loeschen einer Notiz.
+ * Sie zeigt eine Bestaetigungsnachricht an und fuehrt das Loeschen durch, wenn der Benutzer bestaetigt.
+ 
+end note
+
+note left of com.example.appprojekt.Activity.DeleteNoteActivity::confirmDelete
+ Gibt an, ob das Loeschen bestaetigt wurde. 
+end note
+
+note left of com.example.appprojekt.Activity.DeleteNoteActivity::deleteNote()
+ Löscht die ausgewaehlte Notiz. 
+end note
+
+class com.example.appprojekt.Activity.DeleteNoteActivity$DeleteNoteTask {
+# Void doInBackground(Integer)
+# void onPostExecute(Void)
+}
+note top of com.example.appprojekt.Activity.DeleteNoteActivity$DeleteNoteTask
+ AsyncTask zum Loeschen einer Notiz aus der Datenbank. 
+end note
+
+
+
+
+androidx.room.RoomDatabase <|-- com.example.appprojekt.Activity.Database.NoteDatabase
+androidx.appcompat.app.AppCompatActivity <|-- com.example.appprojekt.Activity.ShowNoteActivity
+com.example.appprojekt.Activity.ShowNoteActivity +.. com.example.appprojekt.Activity.ShowNoteActivity$LoadNoteTask
+com.example.appprojekt.Activity.AsyncTask <|-- com.example.appprojekt.Activity.ShowNoteActivity$LoadNoteTask
+com.example.appprojekt.Activity.Adapter <|-- com.example.appprojekt.Activity.NoteAdapter
+com.example.appprojekt.Activity.NoteAdapter +.. com.example.appprojekt.Activity.NoteAdapter$NoteViewHolder
+com.example.appprojekt.Activity.OnCreateContextMenuListener <|.. com.example.appprojekt.Activity.NoteAdapter$NoteViewHolder
+com.example.appprojekt.Activity.OnMenuItemClickListener <|.. com.example.appprojekt.Activity.NoteAdapter$NoteViewHolder
+com.example.appprojekt.Activity.ViewHolder <|-- com.example.appprojekt.Activity.NoteAdapter$NoteViewHolder
+androidx.appcompat.app.AppCompatActivity <|-- com.example.appprojekt.Activity.MainActivity
+com.example.appprojekt.Activity.AsyncTask <|-- com.example.appprojekt.Activity.LoadNotesTask
+androidx.appcompat.app.AppCompatActivity <|-- com.example.appprojekt.Activity.AddNoteActivity
+com.example.appprojekt.Activity.AsyncTask <|-- com.example.appprojekt.Activity.SaveNoteTask
+androidx.appcompat.app.AppCompatActivity <|-- com.example.appprojekt.Activity.EditNoteActivity
+com.example.appprojekt.Activity.EditNoteActivity +.. com.example.appprojekt.Activity.EditNoteActivity$LoadNoteContentTask
+com.example.appprojekt.Activity.AsyncTask <|-- com.example.appprojekt.Activity.EditNoteActivity$LoadNoteContentTask
+com.example.appprojekt.Activity.EditNoteActivity +.. com.example.appprojekt.Activity.EditNoteActivity$UpdateNoteContentTask
+com.example.appprojekt.Activity.AsyncTask <|-- com.example.appprojekt.Activity.EditNoteActivity$UpdateNoteContentTask
+androidx.appcompat.app.AppCompatActivity <|-- com.example.appprojekt.Activity.DeleteNoteActivity
+com.example.appprojekt.Activity.DeleteNoteActivity +.. com.example.appprojekt.Activity.DeleteNoteActivity$DeleteNoteTask
+com.example.appprojekt.Activity.AsyncTask <|-- com.example.appprojekt.Activity.DeleteNoteActivity$DeleteNoteTask
+@enduml

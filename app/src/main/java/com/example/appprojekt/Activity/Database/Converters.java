@@ -6,7 +6,7 @@ import java.util.Calendar;
 
 /**
  * Die Converters-Klasse bietet Konvertierungsmethoden für den Room-Datenbanktyp Calendar.
- * Sie konvertiert zwischen einem Calendar-Objekt und einem Long-Wert (Zeitstempel).
+ * Sie konvertiert ein Calendar-Objekt zu einem Long-Wert (Zeitstempel).
  */
 public class Converters {
 
